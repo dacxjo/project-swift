@@ -22,13 +22,19 @@
       <span class="text-base font-bold text-yellow-500"
         >{{ data.precio }}€</span
       >
-      <button type="button">Comprar</button>
+      <button @click="goStripe" type="button">Comprar</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
+
+declare global {
+  interface Window {
+    Stripe: any
+  }
+}
 
 export default Vue.extend({
   name: 'Product',
@@ -37,6 +43,37 @@ export default Vue.extend({
       type: Object,
       required: true,
     } as PropOptions<any>,
+  },
+  methods: {
+    async goStripe() {
+      let productData: Object = {
+        image: this.data.image,
+        name: this.data.nombre,
+        price: this.data.precio,
+      }
+
+      const response = await fetch('/.netlify/functions/create-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+      }).then((res) => res.json())
+
+      const stripe = window.Stripe(response.publishableKey)
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: response.sessionId,
+      })
+
+      if (error) {
+        console.error(error)
+      }
+    },
+  },
+  computed: {
+    test(): any {
+      return window.Stripe || {}
+    },
   },
 })
 </script>
