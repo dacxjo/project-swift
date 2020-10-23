@@ -47,7 +47,7 @@ export default Vue.extend({
   methods: {
     async goStripe() {
       let productData: Object = {
-        image: this.data.image,
+        image: this.data.imagen,
         name: this.data.nombre,
         price: this.data.precio,
       }
