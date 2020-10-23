@@ -41,7 +41,7 @@ collections:
     fields:
       - { label: 'Nombre', name: 'nombre', widget: 'nombre' }
       - { label: 'Descripción', name: 'descripcion', widget: 'descripcion' }
-      - { label: 'Precio', name: 'descripcion', widget: 'number', value_type: "int",min: 1, max: 999 }
+      - { label: 'Precio', name: 'precio', widget: 'number', value_type: "int",min: 1, max: 999 }
       - { label: 'Imagen principal', name: 'imagen', widget: 'image', required: false, allow_multiple: false }
       - {
           label: 'Galeria',
