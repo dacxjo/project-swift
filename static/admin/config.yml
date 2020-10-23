@@ -1,0 +1,54 @@
+backend:
+  name: git-gateway
+  branch: master
+
+media_folder: static/img
+public_folder: /img
+
+collections:
+  - label: 'Ajustes del sitio'
+    name: 'ajustes'
+    files:
+      - label: 'Info'
+        name: 'info'
+        file: 'assets/content/site/info.json'
+        format: 'json'
+        editor:
+          preview: false
+        fields:
+          - { label: Site Name, name: sitename, widget: string, hint: 'This is used for the site title' }
+          - {
+              label: Site Description,
+              name: sitedescription,
+              widget: string,
+              hint: 'This is used as descriptive text for links that link to this site',
+            }
+          - {
+              label: Site Language,
+              name: sitelang,
+              widget: string,
+              pattern: ['^[a-z]{2}([-])?([A-Za-z]{2})?$', 'Must match "xx" or "xx-XX" syntax (ex. "en" or "sv-SE")'],
+            }
+          # - { label: Site Email, name: siteemail, widget: string, required: false }
+  - name: 'productos'
+    label: 'Productos'
+    format: 'json'
+    folder: 'content/productos'
+    create: true
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    fields:
+      - { label: 'Nombre', name: 'nombre', widget: 'nombre' }
+      - { label: 'Descripción', name: 'descripcion', widget: 'descripcion' }
+      - { label: 'Precio', name: 'descripcion', widget: 'number', value_type: "int",min: 1, max: 999 }
+      - { label: 'Imagen principal', name: 'imagen', widget: 'image', required: false, allow_multiple: false }
+      - {
+          label: 'Galeria',
+          name: 'galeria',
+          widget: 'list',
+          required: false,
+          summary: '{{fields.image}}',
+          field: { label: 'Image', name: 'image', widget: 'image' },
+        }
+      
