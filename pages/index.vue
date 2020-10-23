@@ -1,32 +1,39 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">project-swift</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <main>
+    <section
+      class="index bg-gray-400 flex flex-col justify-center items-center"
+    >
+      <div class="container mx-auto flex flex-col justify-center items-center">
+        <h1 class="font-bold text-6xl">Jamstack Store Demo</h1>
+        <p class="text-center">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+        </p>
+        <p>
+          Reprehenderit expedita beatae veritatis rerum et veniam dicta in nulla
+          alias!
+        </p>
+        <n-link to="/" class="bg-black text-white p-2 mt-4 rounded">
+          Button text
+        </n-link>
       </div>
-    </div>
-  </div>
+    </section>
+    <section class="container mx-auto h-screen">
+      <h2 class="text-center py-4 text-2xl">Productos recientes</h2>
+      <div class="grid grid-cols-4 gap-10">
+        <div v-for="product in productos" :key="product.id">
+          <product :data="product" />
+        </div>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+
+interface Productos {
+   productos: Array<any> 
+}
 
 export default Vue.extend({
   head() {
@@ -36,43 +43,20 @@ export default Vue.extend({
       ],
     }
   },
+  async asyncData(context: any): Promise<Productos> {
+    const productos = await context.$content('productos').fetch()
+
+    return {
+      productos,
+    }
+  }, 
+ 
 })
 </script>
 
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+<style scoped>
+.index {
+  height: 80vh;
+  @apply bg-cover;
 }
 </style>
